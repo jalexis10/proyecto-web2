@@ -1,0 +1,94 @@
+
+<%- include('../layouts/header', { title: 'Carrito de Compras' }); -%>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Carrito de Compras</h1>
+        </div>
+    </div>
+    <div class="row">
+        <% if (carrito && carrito.length > 0) { %>
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>categoria</th>
+                            <th>marca</th>
+                            <th>imagen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% carrito.forEach(producto => { %>
+                            <tr>
+                                <td><%= producto.nombre %></td>
+                                <td><%= producto.precio %></td>
+                                <td><%= producto.categoria %></td>
+                                <td><%= producto.marca %></td>
+                                <td class="card" style="max-width: 100px;">
+                                    <img src="<%= producto.imagen %>"  class="card-img-top">
+                                </td>
+                                
+                                
+                                
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="col-12 text-center">
+                <p>No hay productos en el carrito.</p>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h2>Datos del Usuario</h2>            
+            <form action="/carrito" method="post">
+                
+                <div class="mb-3">
+                    <label for="nombre_cliente" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre_cliente" id="nombre_cliente"  required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido_cliente" class="form-label">Apellidos</label>
+                    <input type="text"  name="apellido_cliente" id="apellido_cliente"  class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cedula_cliente" class="form-label">Documento</label>
+                    <input type="text"  name="cedula_cliente" id="cedula_cliente"  class="form-control" required>
+                </div>            
+                <div class="mb-3">
+                    <label for="telefono_cliente" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono_cliente" name="telefono_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion_cliente" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" name="direccion_cliente" id="direccion_cliente" required>
+                    </div>    
+                    <div class="mb-3">
+                        <label for="fecha_compra" class="form-label">Fecha de Compra</label>
+                        <input type="date" class="form-control" name="fecha_compra" id="fecha_compra"  required>
+                    </div>
+                    
+                    <div>
+                    <button type="submit" class="btn btn-outline-danger">
+                        CONFIRMAR
+                   </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 d-grid mt-4">
+            <a href="/tienda" class="btn btn-outline-secondary">
+                Back to Store
+            </a>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer'); -%>
+
