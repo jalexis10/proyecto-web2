@@ -5,26 +5,31 @@ const persist = require('node-persist');
 const multer = require('multer');
 const sequelize = require('../libs/sequelize');
 // Módulos internos
+const { ensureAuthenticated } = require('../../middlewares/authMiddleware');
 const { models } = require('../libs/sequelize');
+const {validatorHandler} = require('../../middlewares/validator.handler');
+const { createCategoriaSchema, deleteCategoriaSchema } = require('../../schemas/admincategorias');
+
+
 
 
 
 
 // Rutas
 // obtener categorias
-router.get('/', async (req, res) => {    
+router.get('/',ensureAuthenticated, async (req, res) => {    
         let categoria = await models.Cat.findAll();
         res.render('tienda/admincategorias', { categoria: categoria });       
    
 });
 
 //web crear
-router.get('/create', (req, res) => {
+router.get('/create',ensureAuthenticated, (req, res) => {
     console.log("ENTRO A OBTENER EL FORMULARIO")
     res.render('tienda/catcreate');
 });
 
-router.post('/', async (req, res) => {
+router.post('/',ensureAuthenticated,validatorHandler(createCategoriaSchema, 'body'),  async (req, res) => {
     try {
       const { nombre_categoria } = req.body;
   
@@ -47,7 +52,7 @@ router.post('/', async (req, res) => {
 
 
 //web eliminar
-router.post('/delete/:id', async (req, res) => {
+router.post('/delete/:id',ensureAuthenticated, validatorHandler(deleteCategoriaSchema, 'params'), async (req, res) => {
     //console.log(req.params.id);
     const id_categoria = req.params.id; 
   
@@ -64,7 +69,7 @@ router.post('/delete/:id', async (req, res) => {
 });
 
 // Web ACTUALIZAR (Vista)
-router.get('/update/:id', async (req, res) => {
+router.get('/update/:id',ensureAuthenticated, async (req, res) => {
     const id_categoria = req.params.id;
     try {
         const categoria = await models.Cat.findByPk(id_categoria);
@@ -79,7 +84,7 @@ router.get('/update/:id', async (req, res) => {
 });
 
 // Procesar la actualización
-router.post('/update/:id', async (req, res) => {
+router.post('/update/:id', validatorHandler(createCategoriaSchema, 'body'), async (req, res) => {
     const id_categoria = req.params.id;
     const newData = req.body;
 

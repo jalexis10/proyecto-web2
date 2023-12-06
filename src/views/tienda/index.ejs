@@ -1,20 +1,15 @@
 <%- include('../layouts/header', {title: 'Lista de productos en la tienda'}); -%>
 
 <div class="container">
-    <div class="row align-items-center">
-        <div class="col-12">
-            <h1 class="alert alert-success text-center">BIKER STORE</h1>
-        </div>
-        
-    </div>
+   
 
     <% for (const categoria in productosPorCategoria) { %>
         <h2 class="mt-4"><%= categoria %></h2>
         <div class="row">
             <% productosPorCategoria[categoria].forEach(producto => { %>
-                <div class="col-md-4 mb-4">
+                <div class="col-sm-3 mb-3"  >
                     <div class="card">
-                        <img src="<%= producto.imagen %>" alt="<%= producto.nombre %>" class="card-img-top">
+                        <img src="<%= producto.imagen %>" alt="<%= producto.nombre %>" class="card-img-top img-fluid"  >
                         <div class="card-body">
                             <h5 class="card-title"><%= producto.nombre %></h5>
                             <p class="card-text"><%= producto.descripcion %></p>
@@ -31,14 +26,7 @@
             <% }) %>
         </div>
     <% } %>
-
-    <div class="row">
-        <div class="col-12 d-grid">
-            <a href="/tienda/create" class="btn btn-outline-secondary">
-                Crear un nuevo producto
-            </a>
-        </div>
-    </div>
+    
 </div>
 
 <%- include('../layouts/footer'); -%>

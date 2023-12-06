@@ -7,7 +7,7 @@ const multer = require('multer');
 
 // Módulos internos
 const { models } = require('../libs/sequelize');
-
+const { postTienSchema } = require('../../schemas/tienda.schema');
 // Configurar node-persist
 persist.init({
     dir: 'mydata',
@@ -93,38 +93,9 @@ persist.init({
             res.status(500).send('Error interno del servidor');
         }
     });
-    const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, 'public/imagenes');
-        },
-        filename: (req, file, cb) => {
-            cb(null, Date.now() + '-' + file.originalname);
-        },
-    });
     
-    const upload = multer({ storage });
-    router.post('/', upload.single('imagen'), async (req, res) => {
-        try {       
-            
-            // Ahora puedes acceder a la información de la imagen en req.file
-            const { nombre, marca, precio, descripcion, id_categoria } = req.body;
-            const imagen = 'public/imagenes/' + req.file.filename; // Nombre del archivo generado por Multer
     
-            const newTien = await models.Tien.create({
-                nombre,
-                marca,
-                precio,
-                descripcion,
-                id_categoria,
-                imagen,
-            });
     
-            res.redirect('/tienda');
-        } catch (err) {
-            console.error(err);
-            res.json({ error: 'Error al crear el producto' });
-        }
-    });
 }).catch(error => console.error('Error al configurar node-persist:', error));
 
 module.exports = router;

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { models } = require ('../libs/sequelize');
 const persist = require('node-persist');
-
+const { carritoSchema } = require('../../schemas/carrito.schema');
 
 persist.init({
     dir: 'mydata',
@@ -30,7 +30,7 @@ persist.init({
 
 
 // Ejemplo de ruta en el servidor
-router.post('/', async (req, res) => {
+router.post('/',validatorHandler(carritoSchema, 'body'), async (req, res) => {
     try {
         // Recupera el carrito almacenado
         persist.getItem('carrito').then(carrito => {
@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
                 res.redirect('/tienda');
             }).catch(error => {
                 console.error(error);
-                res.json({ message: 'Error al almacenar la mascota' });
+                res.json({ message: 'Error al almacenar la carrito' });
             });
 
         }).catch(error => {

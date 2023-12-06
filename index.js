@@ -5,6 +5,7 @@ const tienda = require('./src/routes/tienda');
 const carrito = require('./src/routes/carrito');
 const adminproducts = require('./src/routes/adminproducts');
 const admincategorias = require('./src/routes/admincategorias');
+const adminorders = require('./src/routes/adminorders');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -46,6 +47,7 @@ app.use('/carrito',carrito);
 app.use('/auth', authRouter);
 app.use('/adminproducts', adminproducts);
 app.use('/admincategorias', admincategorias);
+app.use('/adminorders', adminorders);
 
 }).catch(error => console.error('Error al configurar node-persist:', error));
 
